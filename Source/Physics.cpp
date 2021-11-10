@@ -65,8 +65,7 @@ namespace GLE
 				curfp = pTr->GetPosition();
 				//Next frame's position = Current frame's position + (Vector * dt)
 				//v' = v + at = v + F/m * t
-
-				(*i)->pm_velocity += ((*i)->m_force * (*i)->pm_invmass /*+ (*i)->pm_gravity*/) *dt;
+				(*i)->pm_velocity += ((*i)->m_force * (*i)->pm_invmass) *dt;
 				//p' = p + vt
 				pTr->SetPosition(curfp + (*i)->pm_velocity * dt);
 
@@ -78,13 +77,9 @@ namespace GLE
 
 	void Physics::Gravity_Operation(float dt)
 	{
-
 		for (std::vector<RigidBody*>::iterator i = m_vecprb.begin();
 			i != m_vecprb.end(); ++i)
 		{
-
-			//if ((*i)->is_gravity == true)
-			//	(*i)->pm_ac_velocity = (*i)->pm_gravity;
 			if ((*i)->is_ground == false)
 			{
 				if ((*i)->is_gravity == true)
@@ -123,36 +118,13 @@ namespace GLE
 			}
 		}
 	}
-	//void Physics::BroadPhase()
-	//{
-	//	//k; number of objects
-	//	//Big O Notation O(n^2 / 2)
-	//	for (std::vector<RigidBody*>::iterator i = m_vecprb.begin();
-	//		i != m_vecprb.end();
-	//		++i)
-	//	{
-	//		for (std::vector<RigidBody*>::iterator j = i + 1;
-	//			j != m_vecprb.end();
-	//			++j)
-	//		{
-	//			//Check collision between two AABB objects
-	//			//put the pair into the container.
-	//			if (AABBAABCollisionCheck((*i), (*j)))
-	//			{
-	//				//Put the pair into the container.
-	//				m_vecpair.push_back(Pair(*i, *j));
-	//			}
-	//		}
-	//	}
-	//}
+
 	void Physics::BroadPhase()
 	{
-		//std::vector<RigidBody*>::iterator Player_r;
 		RigidBody *Player_r = NULL;
 		std::vector<RigidBody*>::iterator i;
 		//k; number of objects
 		//Big O Notation O(n^2 / 2)
-		//Player_r = std::find(m_vecprb.begin(), m_vecprb.end(), ((*i)->GetType == PLAYER_1 || (*i)->GetType == PLAYER_2));
 		for (i = m_vecprb.begin(); i != m_vecprb.end(); ++i)
 		{
 			if (((*i)->GetType() == PLAYER_1) || ((*i)->GetType() == PLAYER_2))
@@ -186,10 +158,6 @@ namespace GLE
 			}
 			if (Player_r->check_ground == false)
 			{
-				//Player_r->is_ground = false;
-				//Player_r->down_ground = false;
-				//Player_r->right_ground = false;
-				//Player_r->left_ground = false;
 				Player_r->is_ground = AIR;
 			}
 		}
@@ -209,30 +177,17 @@ namespace GLE
 				return;
 
 		// Calculate restitution
-			float e = Min(pA->pm_restitution, pB->pm_restitution);
+		float e = Min(pA->pm_restitution, pB->pm_restitution);
 
-			// Calculate impulse scalar
-			float j = -(1 + e) * velAlongNormal;
-			j /= pA->pm_invmass + pB->pm_invmass;
-			// Apply impulse
-			Vector2 impulse = j *  pA->pm_normal;
-			pA->pm_velocity -= pA->pm_invmass * impulse;
-			pB->pm_velocity += pB->pm_invmass * impulse;
+		// Calculate impulse scalar
+		float j = -(1 + e) * velAlongNormal;
+		j /= pA->pm_invmass + pB->pm_invmass;
+		// Apply impulse
+		Vector2 impulse = j *  pA->pm_normal;
+		pA->pm_velocity -= pA->pm_invmass * impulse;
+		pB->pm_velocity += pB->pm_invmass * impulse;
 	}
-	//			for (std::vector<RigidBody*>::iterator j = i + 1;
-	//				j != m_vecprb.end();
-	//				++j)
-	//		{
-	//			//Check collision between two AABB objects
-	//			//put the pair into the container.
-	//			if (AABBAABCollisionCheck((*i), (*j)))
-	//			{
-	//				//Put the pair into the container.
-	//				m_vecpair.push_back(Pair(*i, *j));
-	//			}
-	//		}
-	//	}
-	//}
+
 	bool Physics::AABBAABCollisionCheck(RigidBody *pA, RigidBody *pB)
 	{
 		//pB is player
@@ -257,22 +212,18 @@ namespace GLE
 
 		if (atl.x > bbr.x)
 		{
-			//std::cout << "nop" << std::endl;
 			return false;
 		}
 		if (abr.x < btl.x)
 		{
-			//std::cout << "nop" << std::endl;
 			return false;
 		}
 		if (abr.y > btl.y)
 		{
-			//std::cout << "nop" << std::endl;
 			return false;
 		}
 		if (atl.y < bbr.y)
 		{
-			//std::cout << "nop" << std::endl;
 			return false;
 		}
 
@@ -300,17 +251,6 @@ namespace GLE
 		btl = Vector2(bpos.x - bsize.x / 2.f, bpos.y + bsize.y / 2.f);
 		//Bottom right
 		bbr = Vector2(bpos.x + bsize.x / 2.f, bpos.y - bsize.y / 2.f);
-
-		//Vector2 asize = Vector2(pA->m_ptransform->GetScalel());
-		//Vector2  apos = Vector2(pA->m_ptransform->GetPosition());
-		//Vector2 bsize = Vector2(pB->m_ptransform->GetScalel());
-		//Vector2  bpos = Vector2(pB->m_ptransform->GetPosition());
-		//Vector2 atl, abr, btl, bbr;
-
-		//atl = Vector2(apos.x - (asize.x), apos.y + (asize.y));
-		//abr = Vector2(apos.x + (asize.x), apos.y - (asize.y));
-		//btl = Vector2(bpos.x - (bsize.x), bpos.y + (bsize.y));
-		//bbr = Vector2(bpos.x + (bsize.x), bpos.y - (bsize.y));
 
 		// Vector from A to B
 		Vector2 normal = pB->m_ptransform->GetPosition() - pA->m_ptransform->GetPosition();
@@ -362,8 +302,6 @@ namespace GLE
 					}
 					pA->penetration = y_overlap;
 					
-					//M->m_lhs->Jump = true; 
-					//M->m_rhs->Jump = true;
 					return true;
 				}
 			}

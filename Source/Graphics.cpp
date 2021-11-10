@@ -191,21 +191,6 @@ namespace GLE {
 		uniformLocations[1] = glGetUniformLocation(program, "sizeOffset");
 
 
-		//GLuint circleVAO;
-		//glGenVertexArrays(1, &circleVAO);
-		//glBindVertexArray(circleVAO);
-
-		//GLuint circleBufferObject;
-		//glGenBuffers(1, &circleBufferObject);
-		//glBindBuffer(GL_VERTEX_ARRAY, circleBufferObject);
-		//const int sizeVertices = numVertices * 3;
-		//glBufferData(GL_VERTEX_ARRAY, sizeof(float[38 * 3]), g_circleVertexBuffer, );
-
-		//glEnableVertexAttribArray(0);
-		//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-
-		//glBindVertexArray(circleVAO);
-
 	}
 
 	//All systems are updated every frame
