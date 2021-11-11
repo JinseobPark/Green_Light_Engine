@@ -40,11 +40,9 @@ void ObjectFactory::Initialize()
 void ObjectFactory::Update(float /*dt*/)
 {
 	//Todo : Delete all object in the ObjectToBeDeleted list
-	//std::vector<Object*>::iterator it = ObjectsToBeDeleted.begin();
 	for (auto it = ObjectsToBeDeleted.begin(); it != ObjectsToBeDeleted.end(); ++it)
 	{
 		Object* gameObject = *it;
-		//std::map<ObjectID, Object*>::iterator IDit = ObjectIDMap.find(gameObject->objID);
 		auto IDit = ObjectIDMap.find(gameObject->objID);
 
 		//DEBUG_ASSERT(IDit == ObjectIDMap.end(), "Object was bad memory.");
@@ -66,12 +64,6 @@ void ObjectFactory::Destory(Object* gameObject)
 void ObjectFactory::DestroyAllObject()
 {
 	printf("deleted1\n");
-	//std::map<ObjectID, Object*>::iterator it = ObjectIDMap.begin();
-	//for (; it != ObjectIDMap.end(); ++it)
-	//	delete it->second
-
-	/*for(ObjectID i = 0;i < LastObjectID; ++i)
-		ObjectIDMap*/
 
 	for (auto it : ObjectIDMap)
 		delete it.second;
@@ -82,17 +74,6 @@ void ObjectFactory::DestroyAllObject()
 	
 	printf("deleted2\n");
 }
-
-//void ObjectFactory::SetObjectID(Object* gameObject)
-//{
-//	//Just increment the LastObjectID used. Does not handle overflow
-//	//but it would take over 4 billion objects to break
-//	++LastObjectID;
-//	gameObject->objID = LastObjectID;
-//
-//	//Store the game object in the ObjectIDMap
-//	ObjectIDMap[LastObjectID] = gameObject;
-//}
 
 void ObjectFactory::IDGameObject(Object* gameObject)
 {
